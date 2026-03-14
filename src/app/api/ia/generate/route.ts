@@ -6,60 +6,46 @@ export async function POST(req: Request) {
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-      return NextResponse.json({ error: "No se encontró GEMINI_API_KEY en .env.local" }, { status: 500 });
+      return NextResponse.json({ error: "Falta API Key" }, { status: 500 });
     }
 
-    // LISTA DE INTENTOS (Ordenados por rendimiento y estabilidad actual)
-    const endpoints = [
-      { ver: "v1beta", mod: "gemini-1.5-flash-latest" },
-      { ver: "v1", mod: "gemini-1.5-flash" },
-      { ver: "v1beta", mod: "gemini-1.5-pro" },
-      { ver: "v1", mod: "gemini-pro" }
-    ];
+    const model = "gemini-2.5-flash";
+    const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey}`;
 
-    let lastErrorMessage = "";
+    // EL NUEVO PROMPT "ESTILO GEMINI"
+    // Le decimos que sea útil, directo y que se adapte a lo que el usuario pida.
+    const systemInstruction = `Eres un asistente de Inteligencia Artificial útil, directo y versátil. 
+Tu objetivo es cumplir exactamente con lo que el usuario te pide.
+- Si el usuario te saluda ("hola"), responde con un saludo natural y amigable.
+- Si te pide redactar, resumir o crear algo, hazlo con la mejor calidad posible.
+- No asumas un rol de "experto en tecnología" a menos que el usuario te pregunte de tecnología.
+- Sé claro, conciso y utiliza un formato fácil de leer.`;
 
-    // Bucle inteligente: Probará cada uno hasta que uno responda 200 OK
-    for (const setup of endpoints) {
-      try {
-        console.log(`Intentando: ${setup.mod} en ${setup.ver}...`);
-        
-        const url = `https://generativelanguage.googleapis.com/${setup.ver}/models/${setup.mod}:generateContent?key=${apiKey}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{ 
+            text: `${systemInstruction}\n\nSolicitud del usuario: "${prompt}"\n\nRespuesta:` 
+          }]
+        }]
+      })
+    });
 
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: `Eres un experto. Genera: ${prompt}` }] }]
-          })
-        });
+    const data = await response.json();
 
-        const data = await response.json();
-
-        if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
-          console.log(`✅ ¡Conexión exitosa con ${setup.mod}!`);
-          return NextResponse.json({ 
-            texto: data.candidates[0].content.parts[0].text,
-            info: `Modelo: ${setup.mod}`
-          });
-        }
-
-        lastErrorMessage = data.error?.message || "Error desconocido";
-        console.warn(`⚠️ ${setup.mod} rechazado: ${lastErrorMessage}`);
-
-      } catch (err: any) {
-        lastErrorMessage = err.message;
-      }
+    if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
+      return NextResponse.json({ 
+        texto: data.candidates[0].content.parts[0].text 
+      });
     }
 
-    // SI TODO FALLA: El problema no es el modelo, es la cuenta o la red.
     return NextResponse.json({ 
-      error: "Google bloqueó todos los intentos.",
-      causa_real: lastErrorMessage,
-      consejo: "1. Genera una API KEY nueva en Google AI Studio. 2. Asegúrate de que no estás usando una VPN o red restringida (como la de la facultad)."
-    }, { status: 500 });
+      error: data.error?.message || "Error desconocido de Google"
+    }, { status: response.status });
 
   } catch (error: any) {
-    return NextResponse.json({ error: "Error de red: " + error.message }, { status: 500 });
+    return NextResponse.json({ error: "Fallo de conexión: " + error.message }, { status: 500 });
   }
 }
