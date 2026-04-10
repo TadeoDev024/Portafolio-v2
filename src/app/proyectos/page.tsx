@@ -20,28 +20,28 @@ const PROJECTS_DATA = [
     challenge: "Crear una marca personal digital fuerte para atraer pacientes y ofrecer planes nutricionales descargables.",
     solution: "Diseño de una landing page optimizada para conversión (CRO) con integración de formularios de contacto directos.",
     techStack: ["HTML5", "CSS3", "JavaScript", "UX/UI"],
-    link: "https://tu-enlace-nutricionista.com"
+    link: "/en-desarrollo" // Enlace a la página de "En Desarrollo"
   },
   {
     title: "Landing con Chatbot Inteligente",
     challenge: "Proporcionar soporte de ventas 24/7 para un negocio local, respondiendo dudas frecuentes automáticamente.",
     solution: "Implementación de 'TadeoBot', un asistente virtual interactivo impulsado por IA con interfaz tipo mensajería.",
     techStack: ["JavaScript", "CSS Custom", "Gemini API"],
-    link: "https://tu-portafolio-viejo.com/chatbot.html"
+    link: "/en-desarrollo" // Enlace a la página de "En Desarrollo"
   },
   {
-    title: "Selector de Skins - LoL",
+    title: "Selector de Skins - LoL ( En Desarrollo )",
     challenge: "Manejar grandes volúmenes de datos de un juego popular para mostrar contenido visual filtrable a los usuarios.",
     solution: "Integración robusta de APIs, manejo de estados en el frontend y optimización de renderizado de imágenes.",
     techStack: ["React", "API REST", "Frontend"],
-    link: "https://tu-enlace-skins-lol.com"
+    link: "https://rift-roulette-eight.vercel.app/"
   },
   {
     title: "Plataforma Barbería",
     challenge: "El negocio buscaba una solución autogestionable para que el dueño pudiera actualizar horarios sin depender de un dev.",
     solution: "Desarrollo e implementación de un sitio en WordPress con un tema personalizado y optimización de rendimiento.",
     techStack: ["WordPress", "PHP", "SEO Local"],
-    link: "https://tu-enlace-barberia.com"
+    link: "https://castebarber.com/"
   }
 ];
 

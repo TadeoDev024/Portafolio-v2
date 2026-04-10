@@ -21,8 +21,9 @@ export default function ProjectCard({
   delay = 0 
 }: ProjectCardProps) {
   
-  // Determinamos si es una ruta interna de nuestra App o un enlace externo
-  const isInternal = link.startsWith("/");
+  // Identificamos el tipo de enlace
+  const isInDevelopment = link === "/en-desarrollo";
+  const isInternal = link.startsWith("/") && !isInDevelopment;
 
   return (
     <motion.div
@@ -63,7 +64,14 @@ export default function ProjectCard({
         </div>
 
         {/* Renderizado condicional del botón */}
-        {isInternal ? (
+        {isInDevelopment ? (
+          <Link 
+            href={link}
+            className="w-full text-center py-2.5 px-4 bg-[#21262d] border border-[#30363d] text-[#8b949e] font-bold rounded-lg hover:bg-[#30363d] hover:text-[#e6edf3] transition-all shadow-sm flex justify-center items-center gap-2"
+          >
+            En Desarrollo <span className="animate-pulse">🚧</span>
+          </Link>
+        ) : isInternal ? (
           <Link 
             href={link}
             className="w-full text-center py-2.5 px-4 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white font-bold rounded-lg hover:scale-[1.02] active:scale-95 transition-all shadow-md"
