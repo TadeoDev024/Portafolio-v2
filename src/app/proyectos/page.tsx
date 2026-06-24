@@ -23,11 +23,11 @@ const PROJECTS_DATA = [
     link: "/en-desarrollo" // Enlace a la página de "En Desarrollo"
   },
   {
-    title: "Landing con Chatbot Inteligente",
-    challenge: "Proporcionar soporte de ventas 24/7 para un negocio local, respondiendo dudas frecuentes automáticamente.",
-    solution: "Implementación de 'TadeoBot', un asistente virtual interactivo impulsado por IA con interfaz tipo mensajería.",
-    techStack: ["JavaScript", "CSS Custom", "Gemini API"],
-    link: "/en-desarrollo" // Enlace a la página de "En Desarrollo"
+    title: "Connet SRL",
+  challenge: "Modernizar la interfaz web corporativa, mejorar el rendimiento de carga y optimizar la tasa de conversión hacia el canal de ventas por WhatsApp.",
+  solution: "Rediseño UI/UX y desarrollo Front-End a medida integrando componentes 3D, efecto Glassmorphism y animaciones fluidas mediante código puro (sin imágenes pesadas).",
+  techStack: ["HTML5", "CSS3 Avanzado", "JavaScript Vanilla"],
+  link: "https://connetsrl.com.ar/"
   },
   {
     title: "Selector de Skins - LoL ( En Desarrollo )",
